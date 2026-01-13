@@ -6,6 +6,20 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ServiceController;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
+// Ruta temporal para crear admin (ELIMINAR DESPUÉS)
+Route::get('/setup-admin-2024', function () {
+    $user = User::updateOrCreate(
+        ['email' => 'pcapacho24@gmail.com'],
+        [
+            'name' => 'Luis Carlos Correa',
+            'password' => Hash::make('lcdesign2024'),
+        ]
+    );
+    return 'Admin creado/actualizado: ' . $user->email;
+});
 
 // Rutas públicas
 Route::get('/', [HomeController::class, 'index'])->name('home');
