@@ -20,6 +20,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin/*',
             'admin-login',
         ]);
+        
+        // Excluir admin_token de encriptación para que el middleware pueda leerlo
+        $middleware->encryptCookies(except: [
+            'admin_token',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
