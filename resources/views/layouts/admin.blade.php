@@ -51,13 +51,10 @@
                         <i class="fas fa-external-link-alt w-6"></i>
                         <span>Ver Sitio</span>
                     </a>
-                    <form method="POST" action="{{ route('logout') }}" class="px-6 py-3">
-                        @csrf
-                        <button type="submit" class="flex items-center hover:text-red-400 transition w-full">
-                            <i class="fas fa-sign-out-alt w-6"></i>
-                            <span>Cerrar Sesión</span>
-                        </button>
-                    </form>
+                    <a href="{{ route('admin.logout') }}" class="flex items-center px-6 py-3 hover:bg-white/10 hover:text-red-400 transition">
+                        <i class="fas fa-sign-out-alt w-6"></i>
+                        <span>Cerrar Sesión</span>
+                    </a>
                 </div>
             </nav>
         </aside>
