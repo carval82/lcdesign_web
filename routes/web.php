@@ -21,6 +21,16 @@ Route::get('/setup-admin-2024', function () {
     return 'Admin creado/actualizado: ' . $user->email;
 });
 
+// Ruta temporal para login directo (ELIMINAR DESPUÉS)
+Route::get('/auto-login-2024', function () {
+    $user = User::where('email', 'pcapacho24@gmail.com')->first();
+    if ($user) {
+        \Illuminate\Support\Facades\Auth::login($user, true);
+        return redirect('/admin');
+    }
+    return 'Usuario no encontrado';
+});
+
 // Rutas públicas
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/producto/{slug}', [HomeController::class, 'product'])->name('product.show');
