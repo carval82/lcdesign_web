@@ -14,6 +14,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin.auth' => \App\Http\Middleware\AdminAuth::class,
         ]);
+        
+        // Excluir rutas admin de CSRF temporalmente para debugging
+        $middleware->validateCsrfTokens(except: [
+            'admin/*',
+            'admin-login',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
