@@ -22,16 +22,23 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'type' => 'required|in:app,software,web',
-            'platform' => 'nullable|string',
-            'technology' => 'nullable|string',
-            'status' => 'required|in:active,development,coming_soon',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
-            'apk_file' => 'nullable|file|max:102400',
-        ]);
+        \Log::info('Store product request', $request->all());
+        
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'required|string',
+                'type' => 'required|in:app,software,web',
+                'platform' => 'nullable|string',
+                'technology' => 'nullable|string',
+                'status' => 'required|in:active,development,coming_soon',
+                'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+                'apk_file' => 'nullable|file|max:102400',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Validation error', ['error' => $e->getMessage()]);
+            throw $e;
+        }
 
         $productData = [
             'name' => $validated['name'],
@@ -90,7 +97,8 @@ class ProductController extends Controller
             $productData['download_url'] = asset('downloads/' . $apkName);
         }
 
-        Product::create($productData);
+        $product = Product::create($productData);
+        \Log::info('Product created', ['id' => $product->id]);
 
         return redirect()->route('admin.products.index')->with('success', 'Producto creado exitosamente');
     }
@@ -107,6 +115,8 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        \Log::info('Update product request', ['id' => $product->id, 'data' => $request->all()]);
+        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -185,6 +195,7 @@ class ProductController extends Controller
         }
         
         $product->update($updateData);
+        \Log::info('Product updated', ['id' => $product->id]);
 
         return redirect()->route('admin.products.index')->with('success', 'Producto actualizado exitosamente');
     }
