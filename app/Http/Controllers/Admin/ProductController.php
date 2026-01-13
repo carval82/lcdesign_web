@@ -54,7 +54,11 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = Str::slug($validated['name']) . '-' . time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/products'), $imageName);
+            $uploadPath = public_path('images/products');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+            $image->move($uploadPath, $imageName);
             $productData['image'] = 'products/' . $imageName;
         }
 
@@ -62,9 +66,13 @@ class ProductController extends Controller
         if ($request->hasFile('screenshots')) {
             $screenshots = [];
             $files = array_slice($request->file('screenshots'), 0, 10);
+            $uploadPath = public_path('images/products');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
             foreach ($files as $index => $screenshot) {
                 $screenshotName = Str::slug($validated['name']) . '-screenshot-' . ($index + 1) . '-' . time() . '.' . $screenshot->getClientOriginalExtension();
-                $screenshot->move(public_path('images/products'), $screenshotName);
+                $screenshot->move($uploadPath, $screenshotName);
                 $screenshots[] = 'products/' . $screenshotName;
             }
             $productData['screenshots'] = $screenshots;
@@ -74,7 +82,11 @@ class ProductController extends Controller
         if ($request->hasFile('apk_file')) {
             $apk = $request->file('apk_file');
             $apkName = Str::slug($validated['name']) . '-v' . date('Ymd') . '.apk';
-            $apk->move(public_path('downloads'), $apkName);
+            $downloadPath = public_path('downloads');
+            if (!file_exists($downloadPath)) {
+                mkdir($downloadPath, 0755, true);
+            }
+            $apk->move($downloadPath, $apkName);
             $productData['download_url'] = asset('downloads/' . $apkName);
         }
 
@@ -136,17 +148,25 @@ class ProductController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = Str::slug($validated['name']) . '-' . time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images/products'), $imageName);
+            $uploadPath = public_path('images/products');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+            $image->move($uploadPath, $imageName);
             $updateData['image'] = 'products/' . $imageName;
         }
 
         // Subir screenshots (hasta 10)
         if ($request->hasFile('screenshots')) {
             $screenshots = [];
-            $files = array_slice($request->file('screenshots'), 0, 10); // Máximo 5
+            $files = array_slice($request->file('screenshots'), 0, 10);
+            $uploadPath = public_path('images/products');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
             foreach ($files as $index => $screenshot) {
                 $screenshotName = Str::slug($validated['name']) . '-screenshot-' . ($index + 1) . '-' . time() . '.' . $screenshot->getClientOriginalExtension();
-                $screenshot->move(public_path('images/products'), $screenshotName);
+                $screenshot->move($uploadPath, $screenshotName);
                 $screenshots[] = 'products/' . $screenshotName;
             }
             $updateData['screenshots'] = $screenshots;
@@ -156,7 +176,11 @@ class ProductController extends Controller
         if ($request->hasFile('apk_file')) {
             $apk = $request->file('apk_file');
             $apkName = Str::slug($validated['name']) . '-v' . date('Ymd') . '.apk';
-            $apk->move(public_path('downloads'), $apkName);
+            $downloadPath = public_path('downloads');
+            if (!file_exists($downloadPath)) {
+                mkdir($downloadPath, 0755, true);
+            }
+            $apk->move($downloadPath, $apkName);
             $updateData['download_url'] = asset('downloads/' . $apkName);
         }
         
