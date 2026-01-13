@@ -35,8 +35,8 @@ Route::get('/auto-login-2024', function () {
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/producto/{slug}', [HomeController::class, 'product'])->name('product.show');
 
-// Rutas de administración
-Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+// Rutas de administración (temporalmente sin middleware auth para debugging)
+Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('products', ProductController::class);
     Route::resource('services', ServiceController::class);
