@@ -6,37 +6,34 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ServiceController;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
-// Ruta temporal para crear admin (ELIMINAR DESPUÉS)
-Route::get('/setup-admin-2024', function () {
-    $user = User::updateOrCreate(
-        ['email' => 'pcapacho24@gmail.com'],
-        [
-            'name' => 'Luis Carlos Correa',
-            'password' => Hash::make('lcdesign2024'),
-        ]
-    );
-    return 'Admin creado/actualizado: ' . $user->email;
-});
+// Login personalizado para admin (no depende de sesiones de Laravel)
+Route::get('/admin-login', function () {
+    return view('admin.login');
+})->name('admin.login');
 
-// Ruta temporal para login directo (ELIMINAR DESPUÉS)
-Route::get('/auto-login-2024', function () {
-    $user = User::where('email', 'pcapacho24@gmail.com')->first();
-    if ($user) {
-        \Illuminate\Support\Facades\Auth::login($user, true);
-        return redirect('/admin');
+Route::post('/admin-login', function (Request $request) {
+    $password = $request->input('password');
+    
+    if ($password === 'lcdesign2024') {
+        $token = hash('sha256', 'lcdesign2024_admin_secret');
+        return redirect('/admin')->cookie('admin_token', $token, 60 * 24 * 30, '/', null, true, true);
     }
-    return 'Usuario no encontrado';
+    
+    return back()->with('error', 'Contraseña incorrecta');
 });
+
+Route::get('/admin-logout', function () {
+    return redirect('/')->cookie('admin_token', '', -1);
+})->name('admin.logout');
 
 // Rutas públicas
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/producto/{slug}', [HomeController::class, 'product'])->name('product.show');
 
-// Rutas de administración (temporalmente sin middleware auth para debugging)
-Route::prefix('admin')->name('admin.')->group(function () {
+// Rutas de administración con middleware personalizado
+Route::prefix('admin')->name('admin.')->middleware(['admin.auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('products', ProductController::class);
     Route::resource('services', ServiceController::class);
