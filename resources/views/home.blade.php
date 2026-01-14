@@ -166,8 +166,36 @@
                             </a>
                         </div>
                     </div>
-                    <div class="{{ $index % 2 == 0 ? 'order-1 lg:order-2' : 'order-1' }} {{ $product->type == 'app' ? 'flex justify-center' : '' }}">
-                        <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 {{ $product->type == 'app' ? 'max-w-xs' : '' }}">
+                    <div class="{{ $index % 2 == 0 ? 'order-1 lg:order-2' : 'order-1' }}">
+                        @if($product->type == 'app')
+                        <div class="flex flex-col items-center">
+                            <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 max-w-xs">
+                                <div class="bg-gray-800 px-4 py-2 flex items-center space-x-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                    <span class="text-xs text-gray-400 ml-2">{{ $product->name }}</span>
+                                </div>
+                                @if($product->image)
+                                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" class="w-full max-h-96 object-contain">
+                                @else
+                                <div class="bg-gradient-to-br from-lc-primary/20 to-lc-secondary/20 h-64 flex items-center justify-center">
+                                    <i class="fas fa-image text-6xl text-gray-600"></i>
+                                </div>
+                                @endif
+                            </div>
+                            @if($product->screenshots && count($product->screenshots) > 0)
+                            <div class="mt-4 grid grid-cols-4 gap-2 max-w-xs">
+                                @foreach(array_slice($product->screenshots, 0, 8) as $screenshot)
+                                <div class="rounded-lg overflow-hidden border border-white/10 hover:border-lc-primary/50 transition cursor-pointer" onclick="openLightbox('{{ asset('images/' . $screenshot) }}')">
+                                    <img src="{{ asset('images/' . $screenshot) }}" alt="Screenshot" class="w-full h-12 object-cover hover:scale-110 transition">
+                                </div>
+                                @endforeach
+                            </div>
+                            @endif
+                        </div>
+                        @else
+                        <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                             <div class="bg-gray-800 px-4 py-2 flex items-center space-x-2">
                                 <div class="w-3 h-3 rounded-full bg-red-500"></div>
                                 <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -175,14 +203,13 @@
                                 <span class="text-xs text-gray-400 ml-2">{{ $product->name }}</span>
                             </div>
                             @if($product->image)
-                            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" class="w-full {{ $product->type == 'app' ? 'max-h-96 object-contain' : '' }}">
+                            <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}" class="w-full">
                             @else
                             <div class="bg-gradient-to-br from-lc-primary/20 to-lc-secondary/20 h-64 flex items-center justify-center">
                                 <i class="fas fa-image text-6xl text-gray-600"></i>
                             </div>
                             @endif
                         </div>
-                        
                         @if($product->screenshots && count($product->screenshots) > 0)
                         <div class="mt-4 grid grid-cols-5 md:grid-cols-10 gap-2">
                             @foreach(array_slice($product->screenshots, 0, 10) as $screenshot)
@@ -191,6 +218,7 @@
                             </div>
                             @endforeach
                         </div>
+                        @endif
                         @endif
                     </div>
                 </div>
