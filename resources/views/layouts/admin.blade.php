@@ -5,22 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin') | LC Design</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'lc-primary': '#6366f1',
-                        'lc-secondary': '#8b5cf6',
-                        'lc-dark': '#0f172a',
-                        'lc-darker': '#020617',
-                    }
-                }
-            }
+    <style>
+        :root {
+            --lc-primary: #6366f1;
+            --lc-secondary: #8b5cf6;
+            --lc-dark: #0f172a;
+            --lc-darker: #020617;
         }
-    </script>
+        .bg-lc-primary { background-color: var(--lc-primary); }
+        .bg-lc-secondary { background-color: var(--lc-secondary); }
+        .bg-lc-dark { background-color: var(--lc-dark); }
+        .bg-lc-darker { background-color: var(--lc-darker); }
+        .text-lc-primary { color: var(--lc-primary); }
+        .border-lc-primary { border-color: var(--lc-primary); }
+        .focus\:border-lc-primary:focus { border-color: var(--lc-primary); }
+        .bg-lc-primary\/20 { background-color: rgba(99, 102, 241, 0.2); }
+    </style>
 </head>
 <body class="bg-gray-100">
     <div class="min-h-screen flex">
@@ -51,10 +53,13 @@
                         <i class="fas fa-external-link-alt w-6"></i>
                         <span>Ver Sitio</span>
                     </a>
-                    <a href="{{ route('admin.logout') }}" class="flex items-center px-6 py-3 hover:bg-white/10 hover:text-red-400 transition">
-                        <i class="fas fa-sign-out-alt w-6"></i>
-                        <span>Cerrar Sesión</span>
-                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="flex items-center w-full px-6 py-3 hover:bg-white/10 hover:text-red-400 transition">
+                            <i class="fas fa-sign-out-alt w-6"></i>
+                            <span>Cerrar Sesión</span>
+                        </button>
+                    </form>
                 </div>
             </nav>
         </aside>

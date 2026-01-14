@@ -4,22 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - LC Design Admin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'lc-primary': '#8B5CF6',
-                        'lc-secondary': '#6366F1',
-                        'lc-dark': '#0F0F1A',
-                        'lc-darker': '#070710',
-                    }
-                }
-            }
+    <style>
+        :root {
+            --lc-primary: #8B5CF6;
+            --lc-secondary: #6366F1;
+            --lc-dark: #0F0F1A;
+            --lc-darker: #070710;
         }
-    </script>
+        .bg-lc-primary { background-color: var(--lc-primary); }
+        .bg-lc-secondary { background-color: var(--lc-secondary); }
+        .bg-lc-dark { background-color: var(--lc-dark); }
+        .bg-lc-darker { background-color: var(--lc-darker); }
+        .from-lc-primary { --tw-gradient-from: var(--lc-primary); }
+        .to-lc-secondary { --tw-gradient-to: var(--lc-secondary); }
+        .from-lc-darker { --tw-gradient-from: var(--lc-darker); }
+        .via-lc-dark { --tw-gradient-via: var(--lc-dark); }
+        .focus\:border-lc-primary:focus { border-color: var(--lc-primary); }
+        .focus\:ring-lc-primary:focus { --tw-ring-color: var(--lc-primary); }
+        .focus\:ring-offset-lc-dark:focus { --tw-ring-offset-color: var(--lc-dark); }
+    </style>
 </head>
 <body class="bg-gradient-to-br from-lc-darker via-lc-dark to-lc-darker min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-md">

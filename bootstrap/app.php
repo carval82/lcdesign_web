@@ -11,20 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias([
-            'admin.auth' => \App\Http\Middleware\AdminAuth::class,
-        ]);
-        
-        // Excluir rutas admin de CSRF temporalmente para debugging
-        $middleware->validateCsrfTokens(except: [
-            'admin/*',
-            'admin-login',
-        ]);
-        
-        // Excluir admin_token de encriptación para que el middleware pueda leerlo
-        $middleware->encryptCookies(except: [
-            'admin_token',
-        ]);
+        // Middleware estándar de Laravel
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
