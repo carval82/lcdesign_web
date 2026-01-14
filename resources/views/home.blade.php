@@ -362,7 +362,12 @@
             <div class="grid lg:grid-cols-2 gap-12">
                 <!-- Contact Form -->
                 <div class="glass-card rounded-3xl p-8">
-                    <form action="{{ route('home') }}" method="POST" class="space-y-6">
+                    @if(session('success'))
+                    <div class="mb-6 p-4 bg-green-500/20 border border-green-500/50 rounded-xl text-green-400">
+                        <i class="fas fa-check-circle mr-2"></i>{{ session('success') }}
+                    </div>
+                    @endif
+                    <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
                         @csrf
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>

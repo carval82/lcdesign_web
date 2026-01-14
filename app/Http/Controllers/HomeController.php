@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Service;
 use App\Models\PageVisit;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -38,5 +39,19 @@ class HomeController extends Controller
             'user_agent' => $request->userAgent(),
             'referer' => $request->header('referer'),
         ]);
+    }
+
+    public function contact(Request $request)
+    {
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'telefono' => 'nullable|string|max:50',
+            'mensaje' => 'required|string',
+        ]);
+
+        Contact::create($validated);
+
+        return redirect()->route('home')->with('success', '¡Mensaje enviado correctamente! Te contactaremos pronto.');
     }
 }

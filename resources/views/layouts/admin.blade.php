@@ -47,6 +47,14 @@
                     <i class="fas fa-cogs w-6"></i>
                     <span>Servicios</span>
                 </a>
+                <a href="{{ route('admin.contacts.index') }}" class="flex items-center px-6 py-3 hover:bg-white/10 transition {{ request()->routeIs('admin.contacts.*') ? 'bg-lc-primary/20 border-r-4 border-lc-primary' : '' }}">
+                    <i class="fas fa-envelope w-6"></i>
+                    <span>Mensajes</span>
+                    @php $unreadCount = \App\Models\Contact::where('leido', false)->count(); @endphp
+                    @if($unreadCount > 0)
+                    <span class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">{{ $unreadCount }}</span>
+                    @endif
+                </a>
                 
                 <div class="border-t border-white/10 mt-6 pt-6">
                     <a href="{{ route('home') }}" target="_blank" class="flex items-center px-6 py-3 hover:bg-white/10 transition">
