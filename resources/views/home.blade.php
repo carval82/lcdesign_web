@@ -160,10 +160,23 @@
                         </ul>
                         @endif
                         
-                        <div class="mt-6">
+                        <div class="mt-6 flex flex-wrap gap-4">
                             <a href="{{ route('product.show', $product->slug) }}" class="text-lc-primary hover:text-lc-secondary transition">
                                 Ver más detalles <i class="fas fa-arrow-right ml-1"></i>
                             </a>
+                            @if($product->video_url)
+                            @php
+                                $videoId = '';
+                                if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $product->video_url, $matches)) {
+                                    $videoId = $matches[1];
+                                }
+                            @endphp
+                            @if($videoId)
+                            <button onclick="openVideoModal('{{ $videoId }}', '{{ $product->name }}')" class="text-red-500 hover:text-red-400 transition">
+                                <i class="fab fa-youtube mr-1"></i>Ver Video
+                            </button>
+                            @endif
+                            @endif
                         </div>
                     </div>
                     <div class="{{ $index % 2 == 0 ? 'order-1 lg:order-2' : 'order-1' }}">
@@ -472,6 +485,21 @@
         </button>
         <img id="lightbox-img" src="" alt="Screenshot" class="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl" onclick="event.stopPropagation()">
     </div>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/95 backdrop-blur-sm" onclick="closeVideoModal()">
+        <button class="absolute top-6 right-6 text-white text-4xl hover:text-red-500 transition z-10" onclick="closeVideoModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="w-full max-w-5xl mx-4" onclick="event.stopPropagation()">
+            <div class="glass-card rounded-2xl p-2">
+                <div id="videoTitle" class="text-center text-white font-semibold mb-2 px-4"></div>
+                <div class="relative pb-[56.25%] h-0 overflow-hidden rounded-xl">
+                    <iframe id="videoFrame" class="absolute top-0 left-0 w-full h-full" src="" title="Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -493,7 +521,30 @@
     }
     
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'Escape') {
+            closeLightbox();
+            closeVideoModal();
+        }
     });
+
+    function openVideoModal(videoId, title) {
+        const modal = document.getElementById('videoModal');
+        const frame = document.getElementById('videoFrame');
+        const titleEl = document.getElementById('videoTitle');
+        frame.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+        titleEl.textContent = title;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideoModal() {
+        const modal = document.getElementById('videoModal');
+        const frame = document.getElementById('videoFrame');
+        frame.src = '';
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    }
 </script>
 @endpush
