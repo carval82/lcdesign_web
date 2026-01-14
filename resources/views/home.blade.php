@@ -401,7 +401,7 @@
                             <label class="block text-sm font-medium text-gray-300 mb-2">Teléfono</label>
                             <input type="tel" name="telefono"
                                 class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-lc-primary transition"
-                                placeholder="+57 301 248 1020">
+                                placeholder="+57 300 000 0000">
                         </div>
                         
                         <div>
@@ -440,7 +440,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-semibold mb-1">Email</h4>
-                                    <p class="text-gray-400">pcapacho24@gmail.com</p>
+                                    <p class="text-gray-400">contacto@lcdesign.com.co</p>
                                 </div>
                             </div>
                             
@@ -450,7 +450,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-semibold mb-1">Teléfono</h4>
-                                    <p class="text-gray-400">+57 301 248 1020</p>
+                                    <p class="text-gray-400">+57 300 000 0000</p>
                                 </div>
                             </div>
                         </div>
