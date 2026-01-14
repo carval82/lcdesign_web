@@ -450,7 +450,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-semibold mb-1">Teléfono</h4>
-                                    <p class="text-gray-400">+57 300 000 0000</p>
+                                    <p class="text-gray-400">+57 301 248 1020</p>
                                 </div>
                             </div>
                         </div>
