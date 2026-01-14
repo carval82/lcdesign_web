@@ -55,6 +55,7 @@ class ProductController extends Controller
             'featured' => $request->has('featured'),
             'playstore_url' => $request->playstore_url,
             'demo_url' => $request->demo_url,
+            'video_url' => $request->video_url,
         ];
 
         // Subir imagen principal
