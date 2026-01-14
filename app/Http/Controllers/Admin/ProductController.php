@@ -135,6 +135,7 @@ class ProductController extends Controller
         $validated['featured'] = $request->has('featured');
         $validated['playstore_url'] = $request->playstore_url;
         $validated['demo_url'] = $request->demo_url;
+        $validated['video_url'] = $request->video_url;
 
         // Preparar datos para actualizar
         $updateData = [
@@ -151,6 +152,7 @@ class ProductController extends Controller
             'featured' => $validated['featured'],
             'playstore_url' => $validated['playstore_url'],
             'demo_url' => $validated['demo_url'],
+            'video_url' => $validated['video_url'],
             'order' => $request->order ?? $product->order,
         ];
 

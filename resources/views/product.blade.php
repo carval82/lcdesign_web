@@ -122,6 +122,38 @@
                     @endif
                 </div>
             </div>
+
+            @if($product->video_url)
+            <div class="mt-16">
+                <h2 class="text-2xl font-bold mb-6 text-center">
+                    <i class="fab fa-youtube text-red-500 mr-2"></i>Video Demostrativo
+                </h2>
+                <div class="glass-card rounded-2xl p-4 max-w-4xl mx-auto">
+                    <div class="relative pb-[56.25%] h-0 overflow-hidden rounded-xl">
+                        @php
+                            $videoId = '';
+                            if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $product->video_url, $matches)) {
+                                $videoId = $matches[1];
+                            }
+                        @endphp
+                        @if($videoId)
+                        <iframe 
+                            class="absolute top-0 left-0 w-full h-full"
+                            src="https://www.youtube.com/embed/{{ $videoId }}"
+                            title="{{ $product->name }} - Video"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
+                        </iframe>
+                        @else
+                        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800">
+                            <p class="text-gray-400">Video no disponible</p>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </section>
 @endsection

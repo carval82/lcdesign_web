@@ -20,6 +20,7 @@ class Product extends Model
         'download_url',
         'demo_url',
         'playstore_url',
+        'video_url',
         'status',
         'features',
         'order',
